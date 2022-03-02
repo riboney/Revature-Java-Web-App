@@ -18,7 +18,7 @@ public class Main {
     private static String POKEMON_FILE = "pokemons.csv";
 
     public static void main(String[] args) {
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create().start(getHerokuAssignedPort());
         allPokemons = PkUtils.initializePks(POKEMON_FILE);
         displayPokemons = PkUtils.clonePkList(allPokemons);
 
@@ -27,6 +27,14 @@ public class Main {
         app.post("/pokemon", queryByPkNameHandler);
         app.get("/pokemon/{pokedex}", linkToPkHandler);
         app.exception(NullPointerException.class, npeHandler);
+    }
+
+    private static int getHerokuAssignedPort() {
+        String herokuPort = System.getenv("PORT");
+        if (herokuPort != null) {
+            return Integer.parseInt(herokuPort);
+        }
+        return 7000;
     }
 
     private static Handler homeHandler = ctx -> {
