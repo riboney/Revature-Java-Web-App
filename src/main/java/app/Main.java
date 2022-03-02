@@ -8,8 +8,6 @@ import io.javalin.http.ExceptionHandler;
 import io.javalin.http.Handler;
 
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class Main {
 

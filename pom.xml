@@ -130,14 +130,27 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <archive>
-                            <manifest>
-                                <mainClass>Main</mainClass>
-                            </manifest>
-                        </archive>
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
+                        <archive>
+                            <manifest>
+                                <mainClass>app.Main</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.heroku.sdk</groupId>
+                    <artifactId>heroku-maven-plugin</artifactId>
+                    <version>3.0.3</version>
+                    <configuration>
+                        <jdkVersion>1.8</jdkVersion>
+                        <appName>javalin-pokemon-example</appName>
+                        <processTypes>
+                            <!-- Tell Heroku how to launch your application -->
+                            <web>java -jar ./target/javalin-pokemon-example-1.0-SNAPSHOT.jar</web>
+                        </processTypes>
                     </configuration>
                 </plugin>
             </plugins>
