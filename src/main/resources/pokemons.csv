@@ -1,0 +1,5 @@
+#,Name,Type 1,Type 2,HP,Attack,Defense
+1,Bulbasaur,GRASS,POISON,45,49,49,https://img.pokemondb.net/sprites/silver/normal/bulbasaur.png
+4,Charmander,FIRE,NONE,39,52,43,https://img.pokemondb.net/sprites/silver/normal/charmander.png
+7,Squirtle,WATER,NONE,44,48,65,https://img.pokemondb.net/sprites/silver/normal/squirtle.png
+25,Pikachu,ELECTRIC,NONE,35,55,40,https://img.pokemondb.net/sprites/silver/normal/pikachu.png
