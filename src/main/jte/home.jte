@@ -1,4 +1,5 @@
 @import app.models.Pk
+@import app.utils.PkType
 @import java.util.List
 @param List<Pk> pokemons
 
@@ -36,6 +37,14 @@
         button:hover{
             background-color: #41adff;
         }
+
+        select {
+            margin: auto;
+        }
+
+        option {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -53,30 +62,23 @@
             <input type="text" name="name" required>
             <button type="submit">search</button>
         </form>
-    </div>
-
-    <div class="centerChildren">
         <%--src: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#styling_radio_inputs--%>
-        <form>
-            <fieldset>
-                <legend>Filter Pokemon by Type:</legend>
-                <div>
-                    <input type="radio" id="typeChoice1"
-                           name="type" value="email" checked>
-                    <label for="typeChoice1">Email</label>
-
-                    <input type="radio" id="typeChoice2"
-                           name="type" value="phone">
-                    <label for="typeChoice2">Phone</label>
-
-                    <input type="radio" id="typeChoice3"
-                           name="type" value="mail">
-                    <label for="typeChoice3">Mail</label>
-                </div>
-                <div>
-                    <button type="submit">Submit</button>
-                </div>
-            </fieldset>
+        <form id="typeForm" method="post" action="/">
+            <h3>Filter Pokemons by Type</h3>
+            <%--https://stackoverflow.com/a/7231215--%>
+            <select name="type" id="type-select" onchange="this.form.submit()">
+                <option name="type">Select type</option>
+                <option name="type" value="all">
+                    all
+                </option>
+                @for(PkType type: PkType.values())
+                    @if(!type.toString().equalsIgnoreCase("none"))
+                        <option name="type" value="${type.toString()}">
+                            ${type.toString().toLowerCase()}
+                        </option>
+                    @endif
+                @endfor
+            </select>
         </form>
     </div>
 

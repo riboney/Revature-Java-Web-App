@@ -1,13 +1,13 @@
 package app;
 
 import app.models.Pk;
+import app.utils.PkType;
 import app.utils.PkUtils;
 import io.javalin.Javalin;
 import io.javalin.http.ExceptionHandler;
 import io.javalin.http.Handler;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -23,6 +23,7 @@ public class Main {
         displayPokemons = PkUtils.clonePkList(allPokemons);
 
         app.get("/", homeHandler);
+        app.post("/", filterByPkTypeHandler);
         app.post("/pokemon", queryByPkNameHandler);
         app.get("/pokemon/{pokedex}", linkToPkHandler);
         app.exception(NullPointerException.class, npeHandler);
@@ -30,6 +31,14 @@ public class Main {
 
     private static Handler homeHandler = ctx -> {
         ctx.render("home.jte", Collections.singletonMap("pokemons", displayPokemons));
+    };
+
+    private static Handler filterByPkTypeHandler = ctx -> {
+        String rawType = ctx.formParam("type");
+        displayPokemons = rawType.equalsIgnoreCase("all") ?
+                PkUtils.clonePkList(allPokemons) :
+                PkUtils.filterPkList(allPokemons, pokemon -> pokemon.getType1() == PkType.valueOf(rawType));
+        ctx.redirect("/");
     };
 
     private static Handler queryByPkNameHandler = ctx -> {
