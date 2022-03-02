@@ -8,6 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
     <style>
+
+        .centerChildren {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 5% 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
         th, td {
             text-align: center;
             vertical-align: middle;
@@ -17,16 +30,8 @@
             font-weight: bold;
         }
 
-        .centerChildren {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 5% 0;
-        }
-
         .verticalSpacing {
-            margin: 5% auto;
+            margin-top: 5%;
         }
 
         .clickable:hover {
@@ -45,12 +50,56 @@
         option {
             text-align: center;
         }
+
+        <%--https://css-tricks.com/responsive-data-tables/--%>
+        @media
+        only screen and (max-width: 760px),
+        (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+            /* Force table to not be like tables anymore */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr { border: 1px solid #ccc; }
+
+            td {
+                /* Behave  like a "row" */
+                border: none;
+                position: relative;
+                padding-left: 10em;
+            }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 2em;
+                white-space: nowrap;
+            }
+
+            /*
+            Label the data
+            */
+            td:nth-of-type(1):before { content: "Sprite"; }
+            td:nth-of-type(2):before { content: "Name"; }
+        }
     </style>
 </head>
 
 <body>
 <div class="centerChildren">
-    <h1>Welcome to Your PokeDex!</h1>
+    <h1>Welcome to the PokeDex!</h1>
 
     <div class="verticalSpacing">
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Pok%C3%A9ball.png" height="100" width="100">
