@@ -150,7 +150,7 @@
                         <appName>javalin-jte-example</appName>
                         <processTypes>
                             <!-- Tell Heroku how to launch your application -->
-                            <web>java -jar ./target/javalin-heroku-example-1.0-jar-with-dependencies.jar</web>
+                            <web>java -jar ./target/javalin-jte-example-1.0-jar-with-dependencies.jar</web>
                         </processTypes>
                     </configuration>
                 </plugin>
