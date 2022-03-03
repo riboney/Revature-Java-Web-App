@@ -2,6 +2,7 @@
 @import app.utils.PkType
 @import java.util.List
 @param List<Pk> pokemons
+@param String currentFilter
 
 <html lang="en">
 <head>
@@ -132,6 +133,8 @@
             </select>
         </form>
     </div>
+
+    <em>Currently displaying <span style="text-decoration: white underline;">${currentFilter}</span> pokemons...</em>
 
     <div class="verticalSpacing">
         <table>

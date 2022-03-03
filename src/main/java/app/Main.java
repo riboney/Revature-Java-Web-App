@@ -11,7 +11,6 @@ import io.javalin.http.ExceptionHandler;
 import io.javalin.http.Handler;
 import io.javalin.plugin.rendering.template.JavalinJte;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -19,6 +18,7 @@ public class Main {
 
     private static List<Pk> allPokemons;
     private static List<Pk> displayPokemons;
+    private static String currentFilter;
     private static String POKEMON_FILE = "pokemons.csv";
     private static boolean isDevSystem;
 
@@ -29,6 +29,7 @@ public class Main {
         Javalin app = Javalin.create().start(getHerokuAssignedPort());
         allPokemons = PkUtils.initializePks(POKEMON_FILE);
         displayPokemons = PkUtils.clonePkList(allPokemons);
+        currentFilter = "ALL";
 
         app.get("/", homeHandler);
         app.post("/", filterByPkTypeHandler);
@@ -37,6 +38,7 @@ public class Main {
         app.exception(NullPointerException.class, npeHandler);
     }
 
+    // https://javalin.io/tutorials/heroku
     private static int getHerokuAssignedPort() {
         String herokuPort = System.getenv("PORT");
         if (herokuPort != null) {
@@ -45,15 +47,30 @@ public class Main {
         return 7000;
     }
 
+    // src: https://javalin.io/tutorials/jte
+    private static TemplateEngine createTemplateEngine() {
+        if (isDevSystem) {
+            DirectoryCodeResolver codeResolver = new DirectoryCodeResolver(Paths.get("src", "main", "jte"));
+            return TemplateEngine.create(codeResolver, ContentType.Html);
+        } else {
+            return TemplateEngine.createPrecompiled(Paths.get("jte-classes"), ContentType.Html);
+        }
+    }
+
     private static Handler homeHandler = ctx -> {
-        ctx.render("home.jte", Collections.singletonMap("pokemons", displayPokemons));
+        Map<String, Object> params = new HashMap<>();
+        params.put("pokemons", displayPokemons);
+        params.put("currentFilter", currentFilter);
+        ctx.render("home.jte", params);
     };
 
     private static Handler filterByPkTypeHandler = ctx -> {
         String rawType = ctx.formParam("type");
+        currentFilter = rawType.toUpperCase();
         displayPokemons = rawType.equalsIgnoreCase("all") ?
                 PkUtils.clonePkList(allPokemons) :
                 PkUtils.filterPkList(allPokemons, pokemon -> pokemon.getType1() == PkType.valueOf(rawType));
+
         ctx.redirect("/");
     };
 
@@ -73,13 +90,4 @@ public class Main {
         System.out.println("Exception message: " + exception.getMessage());
         ctx.render("error.jte", Collections.singletonMap("error", exception.getMessage()));
     };
-
-    private static TemplateEngine createTemplateEngine() {
-        if (isDevSystem) {
-            DirectoryCodeResolver codeResolver = new DirectoryCodeResolver(Paths.get("src", "main", "jte"));
-            return TemplateEngine.create(codeResolver, ContentType.Html);
-        } else {
-            return TemplateEngine.createPrecompiled(Paths.get("jte-classes"), ContentType.Html);
-        }
-    }
 }
