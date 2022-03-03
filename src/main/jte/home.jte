@@ -93,7 +93,7 @@
             /*
             Label the data
             */
-            td:nth-of-type(1):before { content: "Sprite"; }
+            td:nth-of-type(1):before { content: "Pokedex"; }
             td:nth-of-type(2):before { content: "Name"; }
         }
     </style>
