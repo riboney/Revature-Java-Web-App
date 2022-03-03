@@ -1,8 +1,9 @@
 # Pokemon themed Javalin Demo
 
-## Resources used:
+- Link to demo site: https://javalin-pokemon-example.herokuapp.com/
 
-- [Images - pokemondb.net](https://pokemondb.net/sprites)
-- [Pokemon stats - armgilles](https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6)
-- [Javelin tutorials - javalin](https://javalin.io/tutorials/)
-- [Java lessons - revature](https://revature.com/learn-to-code/)
+### Resources used:
+
+- Images - [Pokemondb](https://pokemondb.net/sprites)
+- Pokemon stats - [armgilles](https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6)
+- Java & Javalin tutorial - [Revature](https://revature.com/learn-to-code/)
