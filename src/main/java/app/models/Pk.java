@@ -24,7 +24,17 @@ public class Pk {
         this.hp = builder.hp;
         this.attack = builder.attack;
         this.defense = builder.defense;
-        this.image = builder.image;
+        this.image = createImageURL();
+    }
+
+    private URL createImageURL(){
+        String imageBaseURL = "https://img.pokemondb.net/sprites/silver/normal/";
+        String imageURL = imageBaseURL + name.toLowerCase() + ".png";
+        try {
+            return new URL(imageURL);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("Image URL not valid!");
+        }
     }
 
     public int getPokedex() {
@@ -79,7 +89,6 @@ public class Pk {
         private int hp;
         private int attack;
         private int defense;
-        private URL image;
 
         // Todo: ensure pokedex is unique among all pokemon
         public Builder pokedex(int pokedex){
@@ -125,15 +134,6 @@ public class Pk {
             else throw new IllegalArgumentException("Defense cannot be lower than 0!");
         }
 
-        public Builder image(String imageURL){
-            try {
-                this.image = new URL(imageURL);
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("Image URL not valid!");
-            }
-            return this;
-        }
-
         // TODO: come up with better way to validate
         private void validate(){
             if(pokedex == 0) throw new IllegalStateException("Pokedex number is required");
@@ -143,7 +143,6 @@ public class Pk {
             if(hp == 0) throw new IllegalStateException("HP is required");
             if(attack == 0) throw new IllegalStateException("Attack value is required");
             if(defense == 0) throw new IllegalStateException("Defense value is required");
-            if(image == null) throw new IllegalStateException("Image URL is required");
         }
 
         public Pk build(){
@@ -161,7 +160,6 @@ public class Pk {
             this.hp = pkCopy.getHp();
             this.attack = pkCopy.getAttack();
             this.defense = pkCopy.getDefense();
-            this.image = pkCopy.getImageURL();
         }
 
         // need explicit no-arg constructor

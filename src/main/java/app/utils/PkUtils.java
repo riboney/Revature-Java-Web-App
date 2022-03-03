@@ -15,23 +15,27 @@ public class PkUtils {
         return values
                 .stream()
                 .map(PkUtils::mapSingleToPK)
+                .filter(item -> item != null)
                 .collect(Collectors.toList());
     }
 
     // TODO: Improve value mapping (use JSON instead of array?)
     public static Pk mapSingleToPK(String[] values){
         //  Expected values order: #,Name,Type 1,Type 2,HP,Attack,Defense, Image
-        if(values.length != 8) throw new IllegalArgumentException("Values doesn't match correct format!");
-        else return new Pk.Builder()
-                .pokedex(Integer.parseInt(values[0]))
-                .name(values[1])
-                .type1(PkType.valueOf(values[2]))
-                .type2(PkType.valueOf(values[3]))
-                .hp(Integer.parseInt(values[4]))
-                .attack(Integer.parseInt(values[5]))
-                .defense(Integer.parseInt(values[6]))
-                .image(values[7])
-                .build();
+        if(values.length < 8) throw new IllegalArgumentException("Values doesn't match correct format!");
+        else if(values[1].toLowerCase().contains("mega")) return null;
+        else {
+            String type2 = values[3].isEmpty() ? "NONE":values[3];
+            return new Pk.Builder()
+                    .pokedex(Integer.parseInt(values[0]))
+                    .name(values[1])
+                    .type1(PkType.valueOf(values[2].toUpperCase()))
+                    .type2(PkType.valueOf(type2.toUpperCase()))
+                    .hp(Integer.parseInt(values[5]))
+                    .attack(Integer.parseInt(values[6]))
+                    .defense(Integer.parseInt(values[7]))
+                    .build();
+        }
     }
 
     // Deep copy List<Pk>

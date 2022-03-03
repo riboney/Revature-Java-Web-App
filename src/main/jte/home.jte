@@ -137,7 +137,7 @@
         <table>
             <thead>
             <tr>
-                <th>Sprite</th>
+                <th>Pokedex</th>
                 <th>Name</th>
             </tr>
             </thead>
@@ -145,7 +145,7 @@
             @for(Pk pokemon: pokemons)
                 <%--https://stackoverflow.com/a/17147876--%>
                 <tr class="clickable" onclick="location.href='${"/pokemon/" + pokemon.getPokedex()}';">
-                    <td><img src="${pokemon.getImageURL().toString()}"></td>
+                    <td>${pokemon.getPokedex()}</td>
                     <td>${pokemon.getName()}</td>
                 </tr>
             @endfor
