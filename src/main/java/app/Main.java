@@ -3,10 +3,16 @@ package app;
 import app.models.Pk;
 import app.utils.PkType;
 import app.utils.PkUtils;
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import gg.jte.resolve.DirectoryCodeResolver;
 import io.javalin.Javalin;
 import io.javalin.http.ExceptionHandler;
 import io.javalin.http.Handler;
+import io.javalin.plugin.rendering.template.JavalinJte;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
@@ -14,8 +20,12 @@ public class Main {
     private static List<Pk> allPokemons;
     private static List<Pk> displayPokemons;
     private static String POKEMON_FILE = "pokemons.csv";
+    private static boolean isDevSystem;
 
     public static void main(String[] args) {
+        isDevSystem = System.getenv("ENV_VAR") != null && System.getenv("ENV_VAR").equals("prod") ? false:true;
+        JavalinJte.configure(createTemplateEngine());
+        System.out.println(isDevSystem);
         Javalin app = Javalin.create().start(getHerokuAssignedPort());
         allPokemons = PkUtils.initializePks(POKEMON_FILE);
         displayPokemons = PkUtils.clonePkList(allPokemons);
@@ -63,4 +73,13 @@ public class Main {
         System.out.println("Exception message: " + exception.getMessage());
         ctx.render("error.jte", Collections.singletonMap("error", exception.getMessage()));
     };
+
+    private static TemplateEngine createTemplateEngine() {
+        if (isDevSystem) {
+            DirectoryCodeResolver codeResolver = new DirectoryCodeResolver(Paths.get("src", "main", "jte"));
+            return TemplateEngine.create(codeResolver, ContentType.Html);
+        } else {
+            return TemplateEngine.createPrecompiled(Paths.get("jte-classes"), ContentType.Html);
+        }
+    }
 }

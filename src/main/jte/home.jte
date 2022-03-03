@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
     <style>
 
+
         .centerChildren {
             display: flex;
             flex-direction: column;
@@ -24,6 +25,7 @@
         th, td {
             text-align: center;
             vertical-align: middle;
+            width: 10em;
         }
 
         td {

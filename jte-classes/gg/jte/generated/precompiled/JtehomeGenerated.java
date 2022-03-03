@@ -1,4 +1,4 @@
-package gg.jte.generated.ondemand;
+package gg.jte.generated.precompiled;
 import app.models.Pk;
 import app.utils.PkType;
 import java.util.List;

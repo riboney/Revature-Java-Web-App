@@ -1,11 +1,7 @@
 package app.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +11,7 @@ public class CSVReader {
     // files are expected to be located in resources directory
     public static List<String[]> getListFromFile(String filename){
         try{
-            File file = getFile(filename);
+            InputStream file = getFile(filename);
             return readFile(file);
         } catch (Exception e){
             System.out.println("Error in processing the file!\n");
@@ -24,12 +20,12 @@ public class CSVReader {
         }
     }
 
-    private static List<String[]> readFile(File file) throws IOException {
+    private static List<String[]> readFile(InputStream file) throws IOException {
         List<String[]> values = new ArrayList<>();
         String line;
 
         // src: https://www.baeldung.com/java-csv-file-array
-        try(BufferedReader br = new BufferedReader(new FileReader(file))){
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(file))){
             // skip first line
             br.readLine();
             while((line = br.readLine()) != null){
@@ -42,8 +38,7 @@ public class CSVReader {
     }
 
     // src: https://mkyong.com/java/java-read-a-file-from-resources-folder/
-    private static File getFile(String filename) throws URISyntaxException {
-        URL fileURL = CSVReader.class.getClassLoader().getResource(filename);
-        return new File(fileURL.toURI());
+    private static InputStream getFile(String filename) throws URISyntaxException {
+        return CSVReader.class.getClassLoader().getResourceAsStream(filename);
     }
 }

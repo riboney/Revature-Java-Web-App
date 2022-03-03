@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
     <style>
+
+        table {
+            table-layout: auto;
+        }
+
         th, td {
             text-align: center;
             vertical-align: middle;
+            width: 10em;
         }
 
         td {
