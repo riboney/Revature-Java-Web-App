@@ -2,6 +2,10 @@
 
 - Link to demo site: https://javalin-pokemon-example.herokuapp.com/
 
+## About
+
+- This project was created for Revature's RAP Internship program
+
 ### Code Snippets & Demo Screenshots
 
 <details>
